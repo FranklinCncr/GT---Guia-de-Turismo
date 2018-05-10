@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+'use strict'
+const vision = require('node-cloud-vision-api')
+
 
 //Settings
 app.set('port', process.env.PORT || 3000);
@@ -17,18 +20,26 @@ app.listen(app.get('port'),()=>{
   console.log('server on port 3000');
 });
 
-/*app.get('/',(req,res)=>{
-  res.send('recivido');
-});
 
-app.post('/',(req,res)=>{
-  res.send('guardando...');
-});
 
-app.put('/',(req,res)=>{
-  res.send('actualizando...');
-});
+// autentificacion
+vision.init({auth: 'AIzaSyC9eUegNGqOhI8XaKZLTeKSEW3vQty-MKk'})
 
-app.delete('/',(req,res)=>{
-  res.send('eliminando...');
-});*/
+// parametros
+const req = new vision.Request({
+  image: new vision.Image({
+    url: 'http://oi49.tinypic.com/23j6a2c.jpg'
+  }),
+  features: [
+    new vision.Feature('FACE_DETECTION', 1),
+    new vision.Feature('LABEL_DETECTION', 10),
+  ]
+})
+
+// peticion
+vision.annotate(req).then((res) => {
+  // respuesta
+  console.log(JSON.stringify(res.responses))
+}, (e) => {
+  console.log('Error: ', e)
+})
