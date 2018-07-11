@@ -2,7 +2,7 @@ var config = {
 	host : 'localhost',
 	user : 'root',
 	password : 'root',
-	database : 'dbaplication'
+	database : 'appdb'
 };
 
 module.exports = config;

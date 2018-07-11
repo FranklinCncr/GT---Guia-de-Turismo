@@ -7,9 +7,11 @@ block content
       div(class='panel panel-default')
         div(class='panel-heading')= 'Seleccione una Imagen'
         div(class='panel-body')
-          form(action='http://localhost:3000/users/panel' method='post' autocomplete='off')
+          form(action='http://localhost:3000/users/panel' method='post' autocomplete='off' enctype='multipart/form-data')
             div(class='form-group')
               input(type="file", multiple, name="imagen")
+              img.image(src=image width=620 height=320)
+
             button(type="submit" class='btn btn-default')= 'Iniciar'
 
       div(class='alert alert-success' role='alert')= message

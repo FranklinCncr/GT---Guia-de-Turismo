@@ -8,12 +8,17 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var routes = require('./routes/routes');
 var passport = require('passport');
+var say = require('say');
+var formidable = require('express-formidable');
+
 //'use strict'
 //const vision = require('node-cloud-vision-api')
 
 require('./passport/passport')(passport);
 
 var app = express();
+
+
 
 app.use(cookieParser());
 app.use(session({
@@ -22,6 +27,9 @@ app.use(session({
   saveUninitialized : false
 }));
 app.use(flash());
+
+
+
 
 
 // view engine setup
@@ -72,5 +80,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
+app.use(formidable());
 
 module.exports = app;
