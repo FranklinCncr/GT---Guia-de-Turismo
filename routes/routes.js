@@ -28,7 +28,7 @@ const multerConf = {
 	}
 }
 
-router.get('/', controllers.HomeController.index);
+router.get('/', AuthMiddleware.isLogged,controllers.HomeController.index);
 
 //routas de usuario
 router.get('/auth/signup', controllers.UserController.getSignUp);

@@ -5,7 +5,7 @@ var bcrypt = require('bcryptjs');
 'use strict'
 const vision = require('node-cloud-vision-api')
 var mensaje;
-const say = require('say');
+//const say = require('say');
 // Imports the Google Cloud client library
 
 
@@ -39,7 +39,7 @@ module.exports = {
 			email : req.body.email,
 			nombre : req.body.nombre,
 			password : password,
-			imagen : img,
+			imagen : '/images/'+img,
 			fecha : date
 		};
 
@@ -69,7 +69,9 @@ module.exports = {
 
 	getUserPanel : function(req, res, next){
 
-		say.speak('Bienvenido '+ req.user.nombre +' seleccione una imagen');
+		//say.speak('Bienvenido '+ req.user.nombre +' seleccione una imagen');
+
+
 		res.render('users/panel', {
 			isAuthenticated : req.isAuthenticated(),
 			user : req.user,
@@ -80,7 +82,7 @@ module.exports = {
 
 	postUserPanel : function(req, res, next){
 
-		say.speak('Inciando busqueda');
+		//say.speak('Inciando busqueda');
 		
 		
 
@@ -197,14 +199,44 @@ module.exports = {
 		            }
 		            salida = salida.substring(0,fin-6);
 		            var salida2 = nombreLugar+" "+salida;
-		            say.speak(salida2);
+		            //say.speak(salida2);
+
+
+var TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
+var fs=require("fs");
+
+var textToSpeech = new TextToSpeechV1({
+  username: '0c0fa62c-b98e-48cc-a40c-b9565afda323',
+  password: '4UAZxpyPPfRN',		
+  url: 'https://stream.watsonplatform.net/text-to-speech/api'  
+});
+
+var params = {
+  text: salida2,
+  voice: 'es-LA_SofiaVoice', // Optional voice
+  accept: 'audio/wav'
+};
+var wav = './public/'+nombreLugar+'.wav';
+// Synthesize speech, correct the wav header, then save to disk
+// (wav header requires a file length, but this is unknown until after the header is already generated and sent)
+textToSpeech
+  .synthesize(params, function(err, audio) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    textToSpeech.repairWavHeader(audio);
+    fs.writeFileSync(wav, audio);
+    //console.log('audio.wav written with a corrected wav header');
+});
+
 		            //console.log(salida);
 
 		            //fecha actual
 		            var f = new Date();
 					var date = f.getFullYear()+"/" + (f.getMonth() +1) + "/" + f.getDate();
 
-					//Generando Audio
+					var maps = "https://maps.google.com/?q="+latitude+","+longitude;
 
 					//console.log(salida);
 
@@ -215,9 +247,10 @@ module.exports = {
 						latitud : latitude,
 						longitud : longitude,
 						fecha : date,
-						imagen : im,
-						audio : "hal.wav",
-						usuario : req.user
+						imagen : '/images/'+im,
+						audio : maps,
+						usuario : req.user.nombre,
+						wav : nombreLugar+'.wav'
 					};
 
 					var config = require('.././database/config');
@@ -239,12 +272,15 @@ module.exports = {
 		    }
 		}]);		
 		
+		
+
 
 		res.render('users/panel', {
 				isAuthenticated : req.isAuthenticated(),
 				user : req.user,
 				message : nombreLugar,
-				image : '/images/'+im
+				image : '/images/'+im,
+				audiowav : nombreLugar+'.wav'
 		});
 		
 

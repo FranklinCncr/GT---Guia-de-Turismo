@@ -9,12 +9,12 @@ block content
 
       div(class='panel panel-default')
         div(class='panel-heading')= 'Iniciar Sesion'
-        div(class='panel-body')
+        div(class='panel-body' )
           form(action='http://localhost:3000/auth/signin' method='post' autocomplete='off')
-            div(class='form-group')
+            div(class='form-group' id='login')
               label(for="email")= 'Email'
               input(type='text' name='username' placeholder='Email' class='form-control')
-            div(class='form-group')
+            div(class='form-group' id='login')
               label(for="password")= 'Password'
               input(type='password' name='password' placeholder='Password' class='form-control')
             button(type="submit" class='btn btn-default')= 'Iniciar Sesion'

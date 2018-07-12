@@ -1,0 +1,14 @@
+body {
+    background-image: url("background.jpg");
+}
+
+
+#historial {
+    background: rgba(0,0,0,0.2);
+    color: burlywood;
+    
+}
+
+p {
+    color: white;
+}

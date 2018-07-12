@@ -2,27 +2,22 @@ extends templates/default
 
 block content
   
-  div(class='principal' )
-    div(class='col-md-6 col-md-offset-3' )
-      div(class='panel panel-default' )
-        div(class='panel-heading' )= '1 Machu Picchu'
-        div(class='panel-body' )
+  div(class='principal' style='background-image: url(background.jpg);' id='historial')
+    div(class='col-md-6 col-md-offset-3' id='historial')
+      div(class='panel panel-default' id='historial')
+      each landmark in landmarks
+        div(class='panel-heading' id='historial')= landmark.nombre
+        div(class='panel-body' id='historial')
           
             div(class='form-group')
               
-                img.image(src='/images/machupicchu.jpg' width='300' height='220' align='right')
+                img.image(src=landmark.imagen width=300 height=240 align='right' id='historial')
 
                
-                p= 'Machu Picchu (Machu Pikchu AFI: [ˌmɑtʃu ˈpiktʃu] en quechua, «Montaña Vieja») es el nombre contemporáneo que se da a una llaqta —antiguo poblado andino— incaica construida antes del siglo XV en el promontorio rocoso que une las montañas Machu Picchu, Putucusi y Huayna Picchu en la vertiente oriental de la cordillera Central, al sur del Perú y a 2490 msnm, altitud de su plaza principal. Su nombre original habría sido Llaqtapata.'
+                p= landmark.detalles
+                audio(controls='')
+                    source(src=landmark.wav , type='audio/wav')
+                a(href=landmark.audio target="_blank") mapa
 
-        div(class='panel-heading' )= '2 Sillustani'
-        div(class='panel-body' )
-            div(class='form-group')              
-                            
-                img.image(src='/images/sillustani-puno.jpg' width='300' height='220' align='right')
 
-               
-                p= 'En una península de la laguna Umayo, a 33 km de la ciudad Puno, se encuentra el sitio arqueológico de Sillustani, un cementerio donde se pueden ver una serie de impresionantes tumbas pertenecientes a la cultura Kolla (1200 - 1450) que se desarrolló en la parte norte de la laguna, en la localidad conocida como Hatuncolla. Las tumbas, llamados chullpas, que tienen la forma de troncos de cono invertidos, son construcciones que en menor número se encuentran también en varios otros locales del altiplano, como Acora o Ilave.'  
-            
-
-      div(class='alert alert-success' role='alert')= message
+        
